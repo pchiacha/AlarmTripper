@@ -1,5 +1,5 @@
 pub mod command_check;
-
+pub mod refridgerator;
 use std::io::{self, Write};
 
 pub fn first_start(start: &mut u32) {
@@ -28,14 +28,16 @@ pub fn begin_game() {
 } //begin_game
 
 fn options() -> &'static str {
-  "\n\n\tAvatar is sitting on the floor...
+  println!("\n\n\tAvatar is sitting on the floor...
   \n\tInput a command or choose a number from below
    \t\t1: go to grocery store
-   \t\t2: go to pet store\n\n";
+   \t\t2: go to pet store\n\n");
+
+   print!("\n >>> ");
+   let _suppress_warning = io::stdout().flush();
 
    let mut command_is = String::new();
    let command = &mut command_is;
-
    io::stdin().read_line(command)
        .expect("failed to read line");
 
@@ -45,12 +47,12 @@ fn options() -> &'static str {
 } //options
 
 fn press_enter() {
-    print!("  >>> ");
+    print!(" >>> ");
     let _suppress_warning = io::stdout().flush();
 
-    let mut guess = String::new();
+    let mut command = String::new();
 
-    io::stdin().read_line(&mut guess)
+    io::stdin().read_line(&mut command)
         .expect("failed to read line");
 
     println!("------------------")

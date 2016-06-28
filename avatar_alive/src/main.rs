@@ -1,50 +1,29 @@
 mod game_start;
-use std::fs::File;
 use std::path::Path;
-
+use std::io::{self, Write};
 
 fn main() {
   let mut start = 1u32; //must declare mutable for no errors in the following line
   let start_game = &mut start;
+  let mut command = String::new();
 
-  /*let path = Path::new("lorem_ipsum.txt");
-    let display = path.display();
-
-  // Open a file in write-only mode, returns `io::Result<File>`
-  let mut file = match File::create(&path) {
-      Err(why) => panic!("couldn't create {}: {}",
-                         display,
-                         why.description()),
-      Ok(file) => file,
-  }; */
+  while (command.trim() != "y") && (command.trim() != "n") {
+    print!("\n\nStart new game?  y/n >>> ");
+    let _suppress_warning = io::stdout().flush();
+    command = String::from("");
+    io::stdin().read_line(&mut command)
+        .expect("failed to read line");
+    //println!("user input: {}", command.trim());
+  }
 
   let refridge_path = Path::new("refridge.txt");
   let refridge_exists = refridge_path.exists();
-  //let display = refridge_path.display();
 
-  if refridge_exists {
-    let mut _refridge_file = File::open(&refridge_path);
+  if (command.trim() == "y") || !refridge_exists {
+    game_start::refridgerator::create_refridge(refridge_path);
+    //println!("refridge: {:?}", refridge_vec);
+    //println!("refridge: {}", refridge_vec[0]);
   }
-  else {
-    let mut _refridge_file = File::create(&refridge_path);
-  }
-
-  /*let mut refridge_file = match File::create(&refridge_path) {
-    Err(why) => panic!("couldn't create {}: {}",
-                       display,
-                       why.description()),
-    Ok(file) => file,
-  };*/
-
-
-  /*match OpenOptions::new().read(true).write(true).create(true).open("refridge_food.txt") {
-          Ok(ref mut refridge_food_file) => {
-            writeln!(refridge_food_file, "Hello!").unwrap();
-          }
-  }; */
-
-
-  //println!("refridge_food_file created: {:?}", refridge_food_file);
 
   loop {
     match start{
